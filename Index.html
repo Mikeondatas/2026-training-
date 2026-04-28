@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>26-Week Athletic Build</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #060606;
+  --surface: #0e0e0e;
+  --card: #121212;
+  --border: #1a1a1a;
+  --border2: #242424;
+  --accent: #d4f53c;
+  --red: #ff3d1f;
+  --blue: #2dd4bf;
+  --purple: #a78bfa;
+  --gold: #fbbf24;
+  --text: #dedede;
+  --muted: #3a3a3a;
+  --muted2: #5a5a5a;
+  --muted3: #888;
+}
+
+- { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+background: var(–bg);
+color: var(–text);
+font-family: ‘Space Mono’, monospace;
+min-height: 100vh;
+overflow-x: hidden;
+}
+
+/* ═══════════════════════════════ HERO ═══════════════════════════════ */
+.hero {
+padding: 36px 20px 28px;
+max-width: 800px;
+margin: 0 auto;
+border-bottom: 1px solid var(–border);
+}
+
+.hero-eyebrow {
+font-size: 9px;
+letter-spacing: 4px;
+text-transform: uppercase;
+color: var(–muted3);
+margin-bottom: 12px;
+}
+
+.hero h1 {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: clamp(64px, 18vw, 120px);
+line-height: 0.85;
+letter-spacing: 1px;
+}
+
+.hero h1 .l1 { color: var(–accent); }
+.hero h1 .l2 { color: var(–text); -webkit-text-stroke: 1px #333; }
+.hero h1 .l3 { color: var(–red); }
+
+.hero-meta {
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+margin-top: 18px;
+}
+
+.chip {
+font-size: 9px;
+letter-spacing: 2px;
+text-transform: uppercase;
+padding: 4px 10px;
+border: 1px solid;
+}
+.chip-g { color: var(–accent); border-color: var(–accent); }
+.chip-r { color: var(–red); border-color: var(–red); }
+.chip-b { color: var(–blue); border-color: var(–blue); }
+.chip-p { color: var(–purple); border-color: var(–purple); }
+.chip-gold { color: var(–gold); border-color: var(–gold); }
+
+.schedule-strip {
+margin-top: 20px;
+display: grid;
+grid-template-columns: repeat(7, 1fr);
+border: 1px solid var(–border2);
+}
+
+.sday {
+padding: 10px 4px;
+text-align: center;
+border-right: 1px solid var(–border2);
+font-size: 9px;
+letter-spacing: 1px;
+}
+.sday:last-child { border-right: none; }
+.sday .sd-name { color: var(–muted3); text-transform: uppercase; margin-bottom: 5px; }
+.sday .sd-type { font-size: 8px; line-height: 1.3; }
+.sday.full { background: #0d1800; }
+.sday.full .sd-type { color: var(–accent); }
+.sday.tempo { background: #0a0e18; }
+.sday.tempo .sd-type { color: var(–blue); }
+.sday.longrun { background: #180a00; }
+.sday.longrun .sd-type { color: var(–red); }
+.sday.rest { }
+.sday.rest .sd-type { color: var(–muted); }
+
+/* ═══════════════════════════════ WAVE NAV ═══════════════════════════ */
+.wave-nav {
+max-width: 800px;
+margin: 0 auto;
+padding: 20px 20px 0;
+}
+
+.wave-nav-label {
+font-size: 9px;
+letter-spacing: 3px;
+text-transform: uppercase;
+color: var(–muted2);
+margin-bottom: 10px;
+}
+
+.wave-blocks {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
+gap: 6px;
+}
+
+.wb {
+padding: 8px 4px;
+border: 1px solid var(–border2);
+text-align: center;
+cursor: pointer;
+transition: all 0.2s;
+background: var(–surface);
+}
+
+.wb:hover { border-color: var(–muted2); }
+.wb.active { border-color: var(–accent); background: #0d1800; }
+.wb.deload { border-color: var(–muted); }
+.wb.deload.active { border-color: var(–gold); background: #1a1200; }
+.wb.peak { border-color: var(–red); }
+.wb.peak.active { background: #1a0800; }
+
+.wb-num {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 22px;
+line-height: 1;
+color: var(–text);
+}
+
+.wb.active .wb-num { color: var(–accent); }
+.wb.deload .wb-num { color: var(–muted3); }
+.wb.deload.active .wb-num { color: var(–gold); }
+.wb.peak .wb-num { color: var(–red); }
+
+.wb-tag {
+font-size: 7px;
+letter-spacing: 1px;
+text-transform: uppercase;
+color: var(–muted2);
+margin-top: 2px;
+}
+
+.wb.active .wb-tag { color: var(–accent); }
+.wb.deload.active .wb-tag { color: var(–gold); }
+
+/* ═══════════════════════════════ WEEK PANEL ═══════════════════════════ */
+.week-panel {
+max-width: 800px;
+margin: 16px auto 0;
+padding: 0 20px 60px;
+}
+
+.week-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 14px 0;
+border-bottom: 1px solid var(–border);
+margin-bottom: 16px;
+}
+
+.wh-left { }
+.wh-title {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 32px;
+letter-spacing: 2px;
+line-height: 1;
+}
+.wh-sub {
+font-size: 10px;
+color: var(–muted3);
+letter-spacing: 2px;
+margin-top: 3px;
+}
+
+.wh-badge {
+font-size: 10px;
+letter-spacing: 2px;
+text-transform: uppercase;
+padding: 6px 14px;
+border: 1px solid;
+}
+
+/* ═══════════════════════════════ DAY TABS ═══════════════════════════ */
+.day-tabs {
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+border: 1px solid var(–border2);
+margin-bottom: 14px;
+}
+
+.dtab {
+padding: 10px 4px;
+text-align: center;
+cursor: pointer;
+border-right: 1px solid var(–border2);
+font-size: 9px;
+letter-spacing: 1px;
+text-transform: uppercase;
+color: var(–muted2);
+background: var(–surface);
+transition: all 0.2s;
+}
+.dtab:last-child { border-right: none; }
+.dtab:hover { color: var(–text); background: var(–card); }
+.dtab.active { color: var(–accent); background: var(–card); border-bottom: 2px solid var(–accent); }
+.dtab .dt-name { font-size: 10px; margin-bottom: 2px; }
+.dtab .dt-type { font-size: 8px; color: var(–muted); }
+.dtab.active .dt-type { color: var(–muted3); }
+
+/* ═══════════════════════════════ SECTIONS ═══════════════════════════ */
+.day-content { display: none; }
+.day-content.active { display: block; animation: fadeIn 0.25s ease; }
+
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(8px); }
+to   { opacity: 1; transform: translateY(0); }
+}
+
+.section {
+border: 1px solid var(–border2);
+background: var(–card);
+margin-bottom: 10px;
+overflow: hidden;
+}
+
+.sec-head {
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 9px 14px;
+background: var(–surface);
+border-bottom: 1px solid var(–border2);
+}
+
+.sec-icon { font-size: 13px; }
+.sec-title {
+font-size: 8px;
+letter-spacing: 3px;
+text-transform: uppercase;
+color: var(–muted3);
+flex: 1;
+}
+.sec-dur {
+font-size: 8px;
+letter-spacing: 1px;
+color: var(–muted2);
+padding: 2px 7px;
+border: 1px solid var(–border2);
+}
+
+/* ═══════════════════════════════ EX ROWS ═══════════════════════════ */
+.ex {
+display: grid;
+grid-template-columns: 1fr auto;
+align-items: center;
+gap: 12px;
+padding: 11px 14px;
+border-bottom: 1px solid #161616;
+transition: background 0.15s;
+}
+.ex:last-child { border-bottom: none; }
+.ex:hover { background: #161616; }
+
+.ex-name { font-size: 11px; color: var(–text); }
+.ex-tip  { font-size: 9px; color: var(–muted2); margin-top: 3px; font-style: italic; }
+
+.params {
+display: flex;
+align-items: center;
+gap: 4px;
+flex-shrink: 0;
+}
+
+.param { text-align: center; min-width: 38px; }
+.pv {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 22px;
+line-height: 1;
+}
+.pl { font-size: 7px; letter-spacing: 2px; text-transform: uppercase; color: var(–muted); margin-top: 1px; }
+.pdiv { font-family: ‘Bebas Neue’, sans-serif; font-size: 14px; color: var(–muted); }
+
+.cg { color: var(–accent); }
+.cr { color: var(–red); }
+.cb { color: var(–blue); }
+.cp { color: var(–purple); }
+.cgold { color: var(–gold); }
+
+/* special rows */
+.note-row {
+padding: 10px 14px;
+font-size: 10px;
+color: var(–muted3);
+border-bottom: 1px solid #161616;
+font-style: italic;
+}
+.note-row:last-child { border-bottom: none; }
+
+/* rest day */
+.rest-day {
+border: 1px solid var(–border2);
+background: var(–card);
+padding: 30px 20px;
+text-align: center;
+}
+.rest-day .rd-icon { font-size: 36px; margin-bottom: 10px; }
+.rest-day .rd-title {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 28px;
+letter-spacing: 3px;
+color: var(–muted3);
+margin-bottom: 6px;
+}
+.rest-day .rd-sub { font-size: 10px; color: var(–muted2); line-height: 1.7; }
+
+/* finisher */
+.finisher {
+border: 1px solid #2a3d00;
+background: linear-gradient(120deg, #0c1600 0%, #090909 100%);
+padding: 14px;
+margin-bottom: 10px;
+}
+.fin-label {
+font-size: 8px; letter-spacing: 3px; text-transform: uppercase;
+color: var(–accent); margin-bottom: 5px;
+}
+.fin-title {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 20px; letter-spacing: 2px; color: var(–text); margin-bottom: 3px;
+}
+.fin-sub { font-size: 9px; color: var(–muted2); }
+
+/* progress bar */
+.progress-wrap {
+max-width: 800px;
+margin: 16px auto 0;
+padding: 0 20px;
+}
+.prog-label {
+display: flex; justify-content: space-between;
+font-size: 9px; letter-spacing: 2px; color: var(–muted2);
+text-transform: uppercase; margin-bottom: 6px;
+}
+.prog-bar {
+height: 3px; background: var(–border2); position: relative;
+}
+.prog-fill {
+height: 100%; background: var(–accent);
+transition: width 0.4s ease;
+}
+</style>
+
+</head>
+<body>
+
+<!-- HERO -->
+
+<div class="hero">
+  <div class="hero-eyebrow">26-Week Athletic Development Program</div>
+  <h1>
+    <span class="l1">FLUID</span><br>
+    <span class="l2">POWER</span><br>
+    <span class="l3">SPEED</span>
+  </h1>
+  <div class="hero-meta">
+    <span class="chip chip-g">Strength</span>
+    <span class="chip chip-r">Speed & Agility</span>
+    <span class="chip chip-b">Mobility & Yoga</span>
+    <span class="chip chip-p">Hypertrophy</span>
+    <span class="chip chip-gold">50/50 Run Split</span>
+  </div>
+  <div class="schedule-strip">
+    <div class="sday full"><div class="sd-name">Mon</div><div class="sd-type">Full Lift</div></div>
+    <div class="sday tempo"><div class="sd-name">Tue</div><div class="sd-type">Tempo Run + Light Lift</div></div>
+    <div class="sday full"><div class="sd-name">Wed</div><div class="sd-type">Full Lift</div></div>
+    <div class="sday tempo"><div class="sd-name">Thu</div><div class="sd-type">Tempo Run + Light Lift</div></div>
+    <div class="sday full"><div class="sd-name">Fri</div><div class="sd-type">Full Lift</div></div>
+    <div class="sday longrun"><div class="sd-name">Sat</div><div class="sd-type">Long Run Only</div></div>
+    <div class="sday rest"><div class="sd-name">Sun</div><div class="sd-type">Rest / Walk</div></div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+
+<div class="progress-wrap">
+  <div class="prog-label">
+    <span>Week <span id="prog-week">1</span> of 26</span>
+    <span id="prog-phase">Block 1 — Accumulation</span>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:3.8%"></div></div>
+</div>
+
+<!-- WAVE NAV -->
+
+<div class="wave-nav">
+  <div class="wave-nav-label">Select Week</div>
+  <div class="wave-blocks" id="wave-blocks"></div>
+</div>
+
+<!-- WEEK PANEL -->
+
+<div class="week-panel">
+  <div class="week-header">
+    <div class="wh-left">
+      <div class="wh-title" id="wh-title">WEEK 1</div>
+      <div class="wh-sub" id="wh-sub">Block 1 · Wave 1 of 3 · Accumulation Phase</div>
+    </div>
+    <div class="wh-badge" id="wh-badge" style="color:var(--accent);border-color:var(--accent)">HARD</div>
+  </div>
+
+  <!-- DAY TABS -->
+
+  <div class="day-tabs">
+    <div class="dtab active" onclick="showDay(0)"><div class="dt-name">MON</div><div class="dt-type">Full Lift</div></div>
+    <div class="dtab" onclick="showDay(1)"><div class="dt-name">TUE</div><div class="dt-type">Tempo + Lift</div></div>
+    <div class="dtab" onclick="showDay(2)"><div class="dt-name">WED</div><div class="dt-type">Full Lift</div></div>
+    <div class="dtab" onclick="showDay(3)"><div class="dt-name">THU</div><div class="dt-type">Tempo + Lift</div></div>
+    <div class="dtab" onclick="showDay(4)"><div class="dt-name">FRI</div><div class="dt-type">Full Lift</div></div>
+  </div>
+
+  <!-- DAY CONTENTS -->
+
+  <div id="day-contents"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════
+
+const WEEKS = [];
+
+// Wave structure: 3 hard + 1 deload, repeated 6x = 24 weeks + 2 peak
+// Blocks: 1-8 Accumulation, 9-16 Strength, 17-22 Power, 23-26 Peak/Taper
+
+function getWeekType(w) { // 1-indexed
+  if (w >= 25) return 'peak';
+  if (w % 4 === 0) return 'deload';
+  return 'hard';
+}
+
+function getBlock(w) {
+  if (w <= 8)  return { name: 'Accumulation', focus: 'Build base volume & movement quality' };
+  if (w <= 16) return { name: 'Strength', focus: 'Increase load, lower reps, power emphasis' };
+  if (w <= 22) return { name: 'Power & Speed', focus: 'Explosive output, agility, peak mobility' };
+  return { name: 'Peak & Taper', focus: 'Max intensity, reduced volume, race-ready' };
+}
+
+// Intensity multipliers per week type and block
+function getIntensity(w) {
+  const type = getWeekType(w);
+  const block = getBlock(w).name;
+  if (type === 'peak') return { sets: '↑↑', load: '90–100%', tag: 'PEAK' };
+  if (type === 'deload') return { sets: '–2', load: '60–65%', tag: 'DELOAD' };
+  if (block === 'Accumulation') return { sets: '3–4', load: '65–75%', tag: 'HARD' };
+  if (block === 'Strength') return { sets: '4–5', load: '75–85%', tag: 'HARD' };
+  return { sets: '4–5', load: '80–90%', tag: 'HARD' };
+}
+
+// ═══════════════════════════════════════════════════════
+// DAY TEMPLATES
+// ═══════════════════════════════════════════════════════
+
+function getWarmup(isDeload) {
+  const dur = isDeload ? '8 min' : '12 min';
+  return `
+  <div class="section">
+    <div class="sec-head">
+      <span class="sec-icon">🔥</span>
+      <span class="sec-title">Dynamic Warm-Up — Every Session</span>
+      <span class="sec-dur">${dur}</span>
+    </div>
+    <div class="ex"><div><div class="ex-name">World's Greatest Stretch</div><div class="ex-tip">Hip flexor + thoracic rotation — 5 reps/side</div></div><div class="params"><div class="param"><div class="pv cb">3</div><div class="pl">Rounds</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">Leg Swings (front/back + lateral)</div><div class="ex-tip">Hold wall — 10 each direction per leg</div></div><div class="params"><div class="param"><div class="pv cb">2</div><div class="pl">Sets</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">Hip 90/90 Rotations</div><div class="ex-tip">Sit tall — rotate through full ROM</div></div><div class="params"><div class="param"><div class="pv cb">10</div><div class="pl">Each</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">Thoracic Cat-Cow + Thread the Needle</div><div class="ex-tip">Slow and intentional — feel every vertebra</div></div><div class="params"><div class="param"><div class="pv cb">8</div><div class="pl">Reps</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">Ankle Circles + Calf Raise</div><div class="ex-tip">Both directions — primes ankle for squats & sprints</div></div><div class="params"><div class="param"><div class="pv cb">10</div><div class="pl">Each</div></div></div></div>
+  </div>`;
+}
+
+function getFinisher(w, type) {
+  const isDeload = type === 'deload';
+  // Progressive overload: sets/reps scale with block
+  const block = getBlock(w).name;
+
+  // Cable crunch weight suggestion (symbolic — user tracks actual load)
+  const cableLoad = isDeload ? '↓ light' : block === 'Accumulation' ? 'mod' : block === 'Strength' ? 'heavy' : 'max';
+  const declineLoad = isDeload ? '↓ light' : block === 'Accumulation' ? 'mod' : 'heavy';
+  const woodchopLoad = isDeload ? '↓ light' : 'mod–heavy';
+
+  const hlrReps = isDeload ? 6 : block === 'Accumulation' ? 8 : block === 'Strength' ? 10 : 12;
+  const rolloutReps = isDeload ? 5 : block === 'Accumulation' ? 6 : block === 'Strength' ? 8 : 10;
+  const cableSets = isDeload ? 2 : 3;
+  const woodchopSets = isDeload ? 2 : 3;
+
+  return `
+  <div class="section" style="border-color:#2a3d00;">
+    <div class="sec-head" style="background:#0c1600;border-color:#2a3d00;">
+      <span class="sec-icon">⬛</span>
+      <span class="sec-title" style="color:var(--accent);letter-spacing:4px;">AB FORGE — Core Finisher</span>
+      <span class="sec-dur" style="color:var(--accent);border-color:#2a3d00;">Every Session</span>
+    </div>
+    <div class="note-row" style="color:var(--muted3);border-color:#1a2a00;">Sequence: Activation → Weighted Upper → Lower → Obliques → Brutal Finisher · Progressive overload weekly</div>
+
+    <div class="ex" style="border-color:#1a2a00;">
+      <div>
+        <div class="ex-name" style="color:var(--muted3);font-size:9px;letter-spacing:2px;text-transform:uppercase;">① ACTIVATION</div>
+        <div class="ex-name">Dead Bug</div>
+        <div class="ex-tip">Lower back pinned to floor — opposite arm/leg extend slow</div>
+      </div>
+      <div class="params">
+        <div class="param"><div class="pv cg">3</div><div class="pl">Sets</div></div>
+        <div class="pdiv">×</div>
+        <div class="param"><div class="pv cg">10</div><div class="pl">Each</div></div>
+      </div>
+    </div>
+
+    <div class="ex" style="border-color:#1a2a00;">
+      <div>
+        <div class="ex-name" style="color:var(--muted3);font-size:9px;letter-spacing:2px;text-transform:uppercase;">② WEIGHTED UPPER</div>
+        <div class="ex-name">Cable Crunch</div>
+        <div class="ex-tip">Kneel — crunch elbows to knees, hold 1 sec · Load: ${cableLoad}</div>
+      </div>
+      <div class="params">
+        <div class="param"><div class="pv cg">${cableSets}</div><div class="pl">Sets</div></div>
+        <div class="pdiv">×</div>
+        <div class="param"><div class="pv cg">15</div><div class="pl">Reps</div></div>
+      </div>
+    </div>
+
+    <div class="ex" style="border-color:#1a2a00;">
+      <div>
+        <div class="ex-name" style="color:var(--muted3);font-size:9px;letter-spacing:2px;text-transform:uppercase;">③ WEIGHTED UPPER</div>
+        <div class="ex-name">Decline Weighted Crunch</div>
+        <div class="ex-tip">Plate or DB on chest — full ROM, slow eccentric · Load: ${declineLoad}</div>
+      </div>
+      <div class="params">
+        <div class="param"><div class="pv cg">${cableSets}</div><div class="pl">Sets</div></div>
+        <div class="pdiv">×</div>
+        <div class="param"><div class="pv cg">12</div><div class="pl">Reps</div></div>
+      </div>
+    </div>
+
+    <div class="ex" style="border-color:#1a2a00;">
+      <div>
+        <div class="ex-name" style="color:var(--muted3);font-size:9px;letter-spacing:2px;text-transform:uppercase;">④ LOWER ABS</div>
+        <div class="ex-name">Hanging Leg Raise</div>
+        <div class="ex-tip">Dead hang start — no swing, posterior pelvic tilt at top</div>
+      </div>
+      <div class="params">
+        <div class="param"><div class="pv cg">3</div><div class="pl">Sets</div></div>
+        <div class="pdiv">×</div>
+        <div class="param"><div class="pv cg">${hlrReps}</div><div class="pl">Reps</div></div>
+      </div>
+    </div>
+
+    <div class="ex" style="border-color:#1a2a00;">
+      <div>
+        <div class="ex-name" style="color:var(--muted3);font-size:9px;letter-spacing:2px;text-transform:uppercase;">⑤ LOWER ABS</div>
+        <div class="ex-name">Reverse Crunch</div>
+        <div class="ex-tip">Hips curl up — not legs swinging. Control the descent</div>
+      </div>
+      <div class="params">
+        <div class="param"><div class="pv cg">3</div><div class="pl">Sets</div></div>
+        <div class="pdiv">×</div>
+        <div class="param"><div class="pv cg">15</div><div class="pl">Reps</div></div>
+      </div>
+    </div>
+
+    <div class="ex" style="border-color:#1a2a00;">
+      <div>
+        <div class="ex-name" style="color:var(--muted3);font-size:9px;letter-spacing:2px;text-transform:uppercase;">⑥ OBLIQUES</div>
+        <div class="ex-name">Cable Woodchop (high to low)</div>
+        <div class="ex-tip">Rotate from shoulders — hips stay square · Load: ${woodchopLoad}</div>
+      </div>
+      <div class="params">
+        <div class="param"><div class="pv cg">${woodchopSets}</div><div class="pl">Sets</div></div>
+        <div class="pdiv">×</div>
+        <div class="param"><div class="pv cg">12</div><div class="pl">Each</div></div>
+      </div>
+    </div>
+
+    <div class="ex" style="border-color:#1a2a00;">
+      <div>
+        <div class="ex-name" style="color:var(--muted3);font-size:9px;letter-spacing:2px;text-transform:uppercase;">⑦ OBLIQUES</div>
+        <div class="ex-name">Side Plank Hip Dip</div>
+        <div class="ex-tip">Stack feet or stagger — dip hip to floor and drive up</div>
+      </div>
+      <div class="params">
+        <div class="param"><div class="pv cg">3</div><div class="pl">Sets</div></div>
+        <div class="pdiv">×</div>
+        <div class="param"><div class="pv cg">12</div><div class="pl">Each</div></div>
+      </div>
+    </div>
+
+    <div class="ex" style="border-color:#1a2a00;">
+      <div>
+        <div class="ex-name" style="color:var(--muted3);font-size:9px;letter-spacing:2px;text-transform:uppercase;">⑧ FULL CORE</div>
+        <div class="ex-name">Ab Wheel Rollout</div>
+        <div class="ex-tip">Hips don't drop — roll to full extension or as far as controlled</div>
+      </div>
+      <div class="params">
+        <div class="param"><div class="pv cg">3</div><div class="pl">Sets</div></div>
+        <div class="pdiv">×</div>
+        <div class="param"><div class="pv cg">${rolloutReps}</div><div class="pl">Reps</div></div>
+      </div>
+    </div>
+
+    <div class="ex" style="border-color:#1a2a00;">
+      <div>
+        <div class="ex-name" style="color:var(--muted3);font-size:9px;letter-spacing:2px;text-transform:uppercase;">⑨ BRUTAL FINISHER</div>
+        <div class="ex-name">Hollow Body Rock</div>
+        <div class="ex-tip">Arms overhead — lower back stays flat, rock from shoulders</div>
+      </div>
+      <div class="params">
+        <div class="param"><div class="pv cr">3</div><div class="pl">Sets</div></div>
+        <div class="pdiv">×</div>
+        <div class="param"><div class="pv cr">30</div><div class="pl">Secs</div></div>
+      </div>
+    </div>
+
+    <div class="ex" style="border-color:#1a2a00;border-bottom:none;">
+      <div>
+        <div class="ex-name" style="color:var(--muted3);font-size:9px;letter-spacing:2px;text-transform:uppercase;">⑩ BRUTAL FINISHER</div>
+        <div class="ex-name">Dragon Flag Negative (or Tuck)</div>
+        <div class="ex-tip">Lower as slow as possible — 3–5 sec descent. Tuck if needed.</div>
+      </div>
+      <div class="params">
+        <div class="param"><div class="pv cr">3</div><div class="pl">Sets</div></div>
+        <div class="pdiv">×</div>
+        <div class="param"><div class="pv cr">${isDeload ? 3 : 5}</div><div class="pl">Reps</div></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function getCooldown(isDeload) {
+  const dur = isDeload ? '15 min' : '10 min';
+  return `
+  <div class="section">
+    <div class="sec-head">
+      <span class="sec-icon">🧘</span>
+      <span class="sec-title">Yoga Cool-Down — After Ab Finisher</span>
+      <span class="sec-dur">${dur}</span>
+    </div>
+    <div class="ex"><div><div class="ex-name">Pigeon Pose</div><div class="ex-tip">Hold 60s each side — breathe into hip</div></div><div class="params"><div class="param"><div class="pv cp">2</div><div class="pl">Sides</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">Seated Forward Fold</div><div class="ex-tip">Hamstrings + low back — no bouncing</div></div><div class="params"><div class="param"><div class="pv cp">60</div><div class="pl">Secs</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">Supine Spinal Twist</div><div class="ex-tip">Both sides — decompress the spine</div></div><div class="params"><div class="param"><div class="pv cp">45</div><div class="pl">Secs</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">Child's Pose</div><div class="ex-tip">Wide knees — lat + thoracic stretch</div></div><div class="params"><div class="param"><div class="pv cp">60</div><div class="pl">Secs</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">Couch Stretch (quad + hip flexor)</div><div class="ex-tip">Back foot on wall — 45s each side</div></div><div class="params"><div class="param"><div class="pv cp">2</div><div class="pl">Sides</div></div></div></div>
+  </div>`;
+}
+
+function getSpeedBlock(w, type) {
+  const isDeload = type === 'deload';
+  const isPeak = type === 'peak';
+  const block = getBlock(w).name;
+
+  if (isDeload) return `
+  <div class="section">
+    <div class="sec-head"><span class="sec-icon">⚡</span><span class="sec-title">Speed — Deload Volume</span><span class="sec-dur">10 min</span></div>
+    <div class="ex"><div><div class="ex-name">A-Skip Drills</div><div class="ex-tip">20m — rhythm and mechanics only</div></div><div class="params"><div class="param"><div class="pv cgold">3</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cgold">20m</div><div class="pl">Dist</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">Broad Jump</div><div class="ex-tip">60% effort — land soft</div></div><div class="params"><div class="param"><div class="pv cgold">3</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cgold">3</div><div class="pl">Reps</div></div></div></div>
+  </div>`;
+
+  if (block === 'Accumulation') return `
+  <div class="section">
+    <div class="sec-head"><span class="sec-icon">⚡</span><span class="sec-title">Speed Activation — Do First, Fresh</span><span class="sec-dur">15 min</span></div>
+    <div class="ex"><div><div class="ex-name">Broad Jumps</div><div class="ex-tip">Max effort — full reset between reps</div></div><div class="params"><div class="param"><div class="pv cr">4</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cr">5</div><div class="pl">Reps</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">Box Jumps</div><div class="ex-tip">Step down — never jump down</div></div><div class="params"><div class="param"><div class="pv cr">4</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cr">5</div><div class="pl">Reps</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">A-Skip / B-Skip Drills</div><div class="ex-tip">20m — high knees, pawback action</div></div><div class="params"><div class="param"><div class="pv cr">3</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cr">20m</div><div class="pl">Dist</div></div></div></div>
+  </div>`;
+
+  if (block === 'Strength') return `
+  <div class="section">
+    <div class="sec-head"><span class="sec-icon">⚡</span><span class="sec-title">Power & Speed — Do First, Fresh</span><span class="sec-dur">18 min</span></div>
+    <div class="ex"><div><div class="ex-name">5-10-5 Pro Agility Drill</div><div class="ex-tip">Full speed — change of direction both ways</div></div><div class="params"><div class="param"><div class="pv cr">5</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cr">4</div><div class="pl">Reps</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">Depth Drop to Sprint (10m)</div><div class="ex-tip">Step off box, land, explode into sprint immediately</div></div><div class="params"><div class="param"><div class="pv cr">5</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cr">3</div><div class="pl">Reps</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">Lateral Bound + Stick</div><div class="ex-tip">Stick landing 2 sec — single leg control</div></div><div class="params"><div class="param"><div class="pv cr">4</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cr">6</div><div class="pl">Each</div></div></div></div>
+  </div>`;
+
+  return `
+  <div class="section">
+    <div class="sec-head"><span class="sec-icon">⚡</span><span class="sec-title">Max Velocity & Agility — Do First</span><span class="sec-dur">20 min</span></div>
+    <div class="ex"><div><div class="ex-name">Flying 10m Sprint (10m build + 10m max)</div><div class="ex-tip">Full recovery 2–3 min between reps</div></div><div class="params"><div class="param"><div class="pv cr">6</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cr">2</div><div class="pl">Reps</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">T-Drill Agility</div><div class="ex-tip">Forward, lateral, backpedal — max speed</div></div><div class="params"><div class="param"><div class="pv cr">5</div><div class="pl">Sets</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">Reactive Shuffle + Sprint Trigger</div><div class="ex-tip">Partner or audio cue — react instantly</div></div><div class="params"><div class="param"><div class="pv cr">5</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cr">4</div><div class="pl">Reps</div></div></div></div>
+  </div>`;
+}
+
+function getStrengthBlock(w, day, type) {
+  const isDeload = type === 'deload';
+  const block = getBlock(w).name;
+  const s = isDeload ? 2 : (block === 'Accumulation' ? 3 : block === 'Strength' ? 5 : 4);
+  const load = isDeload ? 'cgold' : (block === 'Accumulation' ? 'cg' : 'cr');
+
+  const days = {
+    mon: [
+      { name: 'Barbell Back Squat', tip: '3 min rest — brace hard, drive floor away' },
+      { name: 'Barbell Bench Press', tip: '3 min rest — controlled descent, explosive press' },
+      { name: 'Overhead Press', tip: 'Strict — no leg drive' },
+    ],
+    wed: [
+      { name: 'Trap Bar Deadlift', tip: 'Explosive concentric — reset each rep' },
+      { name: 'Weighted Pull-Ups', tip: 'Dead hang bottom — chin over bar' },
+      { name: 'Romanian Deadlift', tip: 'Feel hamstring load — hip hinge' },
+    ],
+    fri: [
+      { name: 'Front Squat', tip: 'Elbows high — upright torso' },
+      { name: 'Incline Barbell Press', tip: 'Upper chest — full ROM' },
+      { name: 'Barbell Row', tip: 'Chest up — elbows back hard' },
+    ]
+  };
+
+  const reps = isDeload ? 4 : (block === 'Accumulation' ? 8 : block === 'Strength' ? 4 : 3);
+  const exercises = days[day] || days.mon;
+
+  return `
+  <div class="section">
+    <div class="sec-head"><span class="sec-icon">🏋️</span><span class="sec-title">Strength — ${block}</span></div>
+    ${exercises.map(e => `
+    <div class="ex"><div><div class="ex-name">${e.name}</div><div class="ex-tip">${e.tip}</div></div>
+    <div class="params"><div class="param"><div class="pv ${load}">${s}</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv ${load}">${reps}</div><div class="pl">Reps</div></div></div></div>`).join('')}
+  </div>`;
+}
+
+function getHypertrophyBlock(w, day, type) {
+  const isDeload = type === 'deload';
+  const block = getBlock(w).name;
+  const s = isDeload ? 2 : 3;
+  const r = isDeload ? 10 : (block === 'Accumulation' ? 12 : 10);
+
+  const days = {
+    mon: [
+      { name: 'Dumbbell Bulgarian Split Squat', tip: '90s rest — feel the glute stretch each rep' },
+      { name: 'Cable Lateral Raise', tip: '2 sec eccentric — no momentum' },
+      { name: 'Dip (weighted if possible)', tip: 'Full depth — chest dip not tricep dip' },
+    ],
+    wed: [
+      { name: 'Cable Seated Row', tip: 'Chest up — row to lower chest' },
+      { name: 'Single-Arm Dumbbell Row', tip: 'Full stretch at top' },
+      { name: 'Hammer Curl', tip: 'Slow — squeeze at top' },
+    ],
+    fri: [
+      { name: 'Leg Curl Machine', tip: '2 sec hold at peak — slow eccentric' },
+      { name: 'Leg Extension Machine', tip: 'Peak squeeze — full extension' },
+      { name: 'Cable Fly', tip: 'Slight bend in elbow — big arc' },
+    ]
+  };
+
+  const exercises = days[day] || days.mon;
+
+  return `
+  <div class="section">
+    <div class="sec-head"><span class="sec-icon">💪</span><span class="sec-title">Hypertrophy</span></div>
+    ${exercises.map(e => `
+    <div class="ex"><div><div class="ex-name">${e.name}</div><div class="ex-tip">${e.tip}</div></div>
+    <div class="params"><div class="param"><div class="pv cb">${s}</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cb">${r}</div><div class="pl">Reps</div></div></div></div>`).join('')}
+  </div>`;
+}
+
+function getMobilityBlock(isDeload) {
+  const extras = isDeload ? `
+    <div class="ex"><div><div class="ex-name">Frog Stretch Hold</div><div class="ex-tip">2 min hold — groin & inner hip opener</div></div><div class="params"><div class="param"><div class="pv cp">2</div><div class="pl">Min</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">Pancake Stretch (seated straddle)</div><div class="ex-tip">Fold forward — don't round spine</div></div><div class="params"><div class="param"><div class="pv cp">90</div><div class="pl">Secs</div></div></div></div>` : '';
+  return `
+  <div class="section">
+    <div class="sec-head"><span class="sec-icon">🧘</span><span class="sec-title">Mobility — Calisthenics Blend</span><span class="sec-dur">${isDeload ? '20' : '12'} min</span></div>
+    <div class="ex"><div><div class="ex-name">Deep Squat Hold + Prying</div><div class="ex-tip">Heels down — pry knees open with elbows</div></div><div class="params"><div class="param"><div class="pv cp">3</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cp">45</div><div class="pl">Secs</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">Jefferson Curl (light)</div><div class="ex-tip">Vertebra by vertebra — loaded spinal flexion</div></div><div class="params"><div class="param"><div class="pv cp">3</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cp">6</div><div class="pl">Reps</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">Shoulder CARs (Controlled Articular Rotations)</div><div class="ex-tip">Slow full circles — max tension throughout</div></div><div class="params"><div class="param"><div class="pv cp">3</div><div class="pl">Each</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">Hip CARs</div><div class="ex-tip">Standing — max ROM, control the circle</div></div><div class="params"><div class="param"><div class="pv cp">5</div><div class="pl">Each</div></div></div></div>
+    ${extras}
+  </div>`;
+}
+
+function getCalisthenicBlock(w, type) {
+  const isDeload = type === 'deload';
+  const block = getBlock(w).name;
+
+  if (isDeload) return `
+  <div class="section">
+    <div class="sec-head"><span class="sec-icon">🤸</span><span class="sec-title">Calisthenics — Deload (skill focus)</span></div>
+    <div class="ex"><div><div class="ex-name">Push-Up Variations (archer, diamond)</div><div class="ex-tip">Quality over quantity</div></div><div class="params"><div class="param"><div class="pv cgold">3</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cgold">8</div><div class="pl">Reps</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">Dead Hang</div><div class="ex-tip">Decompress spine — shoulder pack</div></div><div class="params"><div class="param"><div class="pv cgold">3</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cgold">30</div><div class="pl">Secs</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">L-Sit Hold (parallettes or floor)</div><div class="ex-tip">Build time — start with tuck L-sit</div></div><div class="params"><div class="param"><div class="pv cgold">4</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cgold">max</div><div class="pl">Time</div></div></div></div>
+  </div>`;
+
+  return `
+  <div class="section">
+    <div class="sec-head"><span class="sec-icon">🤸</span><span class="sec-title">Calisthenics — ${block === 'Accumulation' ? 'Foundation' : 'Advanced'}</span></div>
+    <div class="ex"><div><div class="ex-name">Pull-Up Variations (wide, narrow, archer)</div><div class="ex-tip">Full ROM — dead hang at bottom</div></div><div class="params"><div class="param"><div class="pv cg">${block === 'Accumulation' ? 3 : 4}</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cg">max</div><div class="pl">Reps</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">Dip (rings or parallel bars)</div><div class="ex-tip">Full depth — lean for chest emphasis</div></div><div class="params"><div class="param"><div class="pv cg">${block === 'Accumulation' ? 3 : 4}</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cg">max</div><div class="pl">Reps</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">${block === 'Accumulation' ? 'Hollow Body Hold' : 'Tuck Planche Hold'}</div><div class="ex-tip">${block === 'Accumulation' ? 'Lower back glued to floor' : 'Protract scapula — lean forward'}</div></div><div class="params"><div class="param"><div class="pv cg">4</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cg">20</div><div class="pl">Secs</div></div></div></div>
+    <div class="ex"><div><div class="ex-name">Pike Push-Up (handstand prep)</div><div class="ex-tip">Hips high — head through at bottom</div></div><div class="params"><div class="param"><div class="pv cg">3</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cg">10</div><div class="pl">Reps</div></div></div></div>
+  </div>`;
+}
+
+function getTempoDay(w, day, type) {
+  const isDeload = type === 'deload';
+  const runNote = isDeload ? 'Easy tempo — 20 min at 65% effort, feel-good pace' : 'Tempo run first — 30–40 min at threshold pace. Lift after full recovery.';
+
+  const liftDay = day === 'tue' ? {
+    str: [
+      { name: 'Dumbbell RDL', tip: 'Hinge — feel hamstring load' },
+      { name: 'Cable Row', tip: 'Controlled — chest up' },
+    ],
+    hype: [
+      { name: 'Dumbbell Hip Thrust', tip: 'Glute squeeze at top' },
+      { name: 'Face Pull', tip: 'External rotation — rear delt' },
+    ]
+  } : {
+    str: [
+      { name: 'Goblet Squat', tip: 'Deep — elbows inside knees' },
+      { name: 'Dumbbell Shoulder Press', tip: 'Strict — no leg drive' },
+    ],
+    hype: [
+      { name: 'Leg Curl Machine', tip: '2 sec hold — slow eccentric' },
+      { name: 'Tricep Pushdown', tip: 'Squeeze at bottom — full extension' },
+    ]
+  };
+
+  const s = isDeload ? 2 : 3;
+  const r = isDeload ? 8 : 10;
+
+  return `
+    ${getWarmup(isDeload)}
+    <div class="section">
+      <div class="sec-head"><span class="sec-icon">🏃</span><span class="sec-title">Tempo Run — Do Before Lifting</span></div>
+      <div class="note-row">${runNote}</div>
+      <div class="ex"><div><div class="ex-name">Tempo Run</div><div class="ex-tip">${isDeload ? '20 min easy — active recovery' : '30–40 min at threshold. Controlled breathing. Not a sprint.'}</div></div><div class="params"><div class="param"><div class="pv cr">${isDeload ? 20 : 35}</div><div class="pl">Min</div></div></div></div>
+    </div>
+    ${getMobilityBlock(isDeload)}
+    <div class="section">
+      <div class="sec-head"><span class="sec-icon">🏋️</span><span class="sec-title">Light Strength — Post Run (reduced volume)</span></div>
+      ${liftDay.str.map(e => `<div class="ex"><div><div class="ex-name">${e.name}</div><div class="ex-tip">${e.tip}</div></div><div class="params"><div class="param"><div class="pv cgold">${s}</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cgold">${r}</div><div class="pl">Reps</div></div></div></div>`).join('')}
+    </div>
+    <div class="section">
+      <div class="sec-head"><span class="sec-icon">💪</span><span class="sec-title">Hypertrophy — Keep Light Post Tempo</span></div>
+      ${liftDay.hype.map(e => `<div class="ex"><div><div class="ex-name">${e.name}</div><div class="ex-tip">${e.tip}</div></div><div class="params"><div class="param"><div class="pv cb">${s}</div><div class="pl">Sets</div></div><div class="pdiv">×</div><div class="param"><div class="pv cb">${r}</div><div class="pl">Reps</div></div></div></div>`).join('')}
+    </div>
+    ${getFinisher(w, type)}
+    ${getCooldown(isDeload)}`;
+}
+
+function getFullDay(w, dayKey, type) {
+  const isDeload = type === 'deload';
+  return `
+    ${getWarmup(isDeload)}
+    ${getSpeedBlock(w, type)}
+    ${getStrengthBlock(w, dayKey, type)}
+    ${getMobilityBlock(isDeload)}
+    ${getHypertrophyBlock(w, dayKey, type)}
+    ${getCalisthenicBlock(w, type)}
+    ${getFinisher(w, type)}
+    ${getCooldown(isDeload)}`;
+}
+
+// ═══════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════
+
+let currentWeek = 1;
+let currentDay = 0;
+
+function buildWaveBlocks() {
+  const container = document.getElementById('wave-blocks');
+  let html = '';
+  for (let w = 1; w <= 26; w++) {
+    const type = getWeekType(w);
+    const cls = type === 'deload' ? 'wb deload' : type === 'peak' ? 'wb peak' : 'wb';
+    const tag = type === 'deload' ? 'Deload' : type === 'peak' ? 'Peak' : `W${Math.ceil(w/4)*4-3+((w-1)%4)} of ${w%4===0?4:w%4}`;
+    html += `<div class="${cls} ${w===1?'active':''}" onclick="selectWeek(${w})">
+      <div class="wb-num">${w}</div>
+      <div class="wb-tag">${type.toUpperCase()}</div>
+    </div>`;
+  }
+  container.innerHTML = html;
+}
+
+function selectWeek(w) {
+  currentWeek = w;
+  currentDay = 0;
+  document.querySelectorAll('.wb').forEach((el, i) => {
+    el.classList.toggle('active', i === w - 1);
+  });
+
+  const type = getWeekType(w);
+  const block = getBlock(w);
+  const intensity = getIntensity(w);
+
+  document.getElementById('wh-title').textContent = `WEEK ${w}`;
+  document.getElementById('wh-sub').textContent = `${block.name} · ${block.focus}`;
+  document.getElementById('prog-week').textContent = w;
+  document.getElementById('prog-phase').textContent = `${block.name} Phase`;
+  document.getElementById('prog-fill').style.width = ((w / 26) * 100).toFixed(1) + '%';
+
+  const badge = document.getElementById('wh-badge');
+  if (type === 'deload') {
+    badge.textContent = 'DELOAD';
+    badge.style.color = 'var(--gold)';
+    badge.style.borderColor = 'var(--gold)';
+  } else if (type === 'peak') {
+    badge.textContent = 'PEAK';
+    badge.style.color = 'var(--red)';
+    badge.style.borderColor = 'var(--red)';
+  } else {
+    badge.textContent = 'HARD';
+    badge.style.color = 'var(--accent)';
+    badge.style.borderColor = 'var(--accent)';
+  }
+
+  renderDays(w, type);
+  showDay(0);
+}
+
+function renderDays(w, type) {
+  const days = [
+    { key: 'mon', label: 'MON', kind: 'full' },
+    { key: 'tue', label: 'TUE', kind: 'tempo' },
+    { key: 'wed', label: 'WED', kind: 'full' },
+    { key: 'thu', label: 'THU', kind: 'tempo' },
+    { key: 'fri', label: 'FRI', kind: 'full' },
+  ];
+
+  const container = document.getElementById('day-contents');
+  container.innerHTML = days.map((d, i) => {
+    const content = d.kind === 'tempo'
+      ? getTempoDay(w, d.key, type)
+      : getFullDay(w, d.key, type);
+    return `<div class="day-content ${i === 0 ? 'active' : ''}" id="day-${i}">${content}</div>`;
+  }).join('');
+}
+
+function showDay(i) {
+  currentDay = i;
+  document.querySelectorAll('.dtab').forEach((el, j) => el.classList.toggle('active', j === i));
+  document.querySelectorAll('.day-content').forEach((el, j) => el.classList.toggle('active', j === i));
+}
+
+// INIT
+buildWaveBlocks();
+selectWeek(1);
+</script>
+
+</body>
+</html>
